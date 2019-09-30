@@ -7,6 +7,8 @@ class GameBall(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
 
+        self.outofbounds = False
+
         self.image = pygame.Surface([10, 10])
  
         # Color the ball
@@ -43,10 +45,9 @@ class GameBall(pygame.sprite.Sprite):
         self.change_y = self.speed
 
         self.x = random.randrange(50,750)
-        self.y = 350.0
+        self.y = 30
 
     def update(self):
- 
         if self.y > self.screenheight - self.size or self.y < self.size:
             self.change_y *= -1
         if self.x > self.screenwidth - self.size or self.x < self.size:
@@ -58,3 +59,9 @@ class GameBall(pygame.sprite.Sprite):
         # Move the image to where our x and y are
         self.rect.x = self.x
         self.rect.y = self.y
+
+        if self.y > self.screenheight - self.size:
+            self.outofbounds = True
+
+    def bounce(self):
+        self.change_y *= -1

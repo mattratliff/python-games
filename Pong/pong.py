@@ -26,9 +26,6 @@ background = pygame.Surface(screen.get_size())
  
 # Create the ball
 ball = b.GameBall()
-# Create a group of 1 ball (used in checking collisions)
-# balls = pygame.sprite.Group()
-# balls.add(ball)
  
 # Create the player paddle object
 player = p.Paddle(580)
@@ -52,11 +49,25 @@ while not exit_program:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit_program = True
+    
+    # check for failure
+    if ball.outofbounds:
+        done = True
 
     if not done:
         # Update the player and ball positions
         player.update(speed)
         ball.update()
+
+        #check for collision
+        if pygame.sprite.collide_rect(player, ball):
+            ball.bounce()
+
+    if done:
+        text = font.render("Game Over", 1, (200, 200, 200))
+        textpos = text.get_rect(centerx=background.get_width()/2)
+        textpos.top = 50
+        screen.blit(text, textpos)        
 
     # Draw Everything
     movingsprites.draw(screen)

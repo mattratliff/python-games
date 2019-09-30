@@ -22,10 +22,11 @@ class Paddle(pygame.sprite.Sprite):
  
     # Update the player
     def update(self, speed):
+        
         self.rect.x = self.rect.x + speed * 15
 
         # Make sure we don't push the player paddle off the right side of the screen
         if self.rect.x > self.screenwidth - self.width:
             self.rect.x = self.screenwidth - self.width
-        if self.rect.x > self.screenwidth - self.width:
-            self.rect.x = self.width
+        if self.rect.x < 0:
+            self.rect.x = 0
